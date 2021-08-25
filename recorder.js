@@ -1,7 +1,6 @@
 const mediaSelector = document.getElementById("media");
 
-const webCamContainer =
-	document.getElementById("web-cam-container");
+const webCamContainer =	document.getElementById("web-cam-container");
 
 let selectedMedia = null;
 
@@ -15,30 +14,19 @@ mediaSelector.addEventListener("change", (e) => {
 	// Takes the current value of the mediaSeletor
 	selectedMedia = e.target.value;
 
-	document.getElementById(
-		`${selectedMedia}-recorder`)
-			.style.display = "block";
+	document.getElementById(`${selectedMedia}-recorder`).style.display = "block";
 
-	document.getElementById(
-			`${otherRecorderContainer(
-			selectedMedia)}-recorder`)
-		.style.display = "none";
-});
+	document.getElementById(`${otherRecorderContainer(selectedMedia)}-recorder`).style.display = "none";});
 
-function otherRecorderContainer(
-	selectedMedia) {
-
-	return selectedMedia === "vid" ?
-		"aud" : "vid";
-}
+function otherRecorderContainer(selectedMedia) 
+	{
+	return selectedMedia === "vid" ? "aud" : "vid";
+	}
 
 // This constraints object tells
 // the browser to include only
 // the audio Media Track
-const audioMediaConstraints = {
-	audio: true,
-	video: false,
-};
+const audioMediaConstraints = {audio: true,	video: false,};
 
 // This constraints object tells
 // the browser to include
@@ -56,19 +44,14 @@ const videoMediaConstraints = {
 // When the user clicks the "Start
 // Recording" button this function
 // gets invoked
-function startRecording(
-	thisButton, otherButton) {
-
+function startRecording(thisButton, otherButton) 
+	{
 	// Access the camera and microphone
 	navigator.mediaDevices.getUserMedia(
-		selectedMedia === "vid" ?
-		videoMediaConstraints :
-		audioMediaConstraints)
-		.then((mediaStream) => {
+		selectedMedia === "vid" ? videoMediaConstraints :audioMediaConstraints).then((mediaStream) => {
 
 		// Create a new MediaRecorder instance
-		const mediaRecorder =
-			new MediaRecorder(mediaStream);
+		const mediaRecorder = new MediaRecorder(mediaStream);
 
 		//Make the mediaStream global
 		window.mediaStream = mediaStream;
@@ -112,8 +95,7 @@ function startRecording(
 
 			// Create a video or audio element
 			// that stores the recorded media
-			const recordedMedia = document.createElement(
-				selectedMedia === "vid" ? "video" : "audio");
+			const recordedMedia = document.createElement(selectedMedia === "vid" ? "video" : "audio");
 			recordedMedia.controls = true;
 
 			// You can not directly set the blob as
@@ -150,9 +132,7 @@ function startRecording(
 				URL.revokeObjectURL(recordedMedia);
 			};
 
-			document.getElementById(
-				`${selectedMedia}-recorder`).append(
-				recordedMedia, downloadButton);
+			document.getElementById(`${selectedMedia}-recorder`).append(recordedMedia, downloadButton);
 		};
 
 		if (selectedMedia === "vid") {
@@ -179,14 +159,8 @@ function stopRecording(thisButton, otherButton) {
 
 	// Stop all the tracks in the
 	// received media stream
-	window.mediaStream.getTracks()
-	.forEach((track) => {
-		track.stop();
-	});
-
-	document.getElementById(
-			`${selectedMedia}-record-status`)
-			.innerText = "Recording done!";
+	window.mediaStream.getTracks().forEach((track) => {track.stop();});
+	document.getElementById(`${selectedMedia}-record-status`).innerText = "Recording done!";
 	thisButton.disabled = true;
 	otherButton.disabled = false;
 }
